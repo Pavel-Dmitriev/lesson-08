@@ -14,7 +14,7 @@ export const Ref: React.FC<Props> = () => {
         <li><a href="/ref/authors">Авторы</a></li>
         <li><a href="/ref/genre">Жанр</a></li>
         <li><a href="/ref/language">Язык</a></li>
-        <li><a href="/ref/publisher">Публикация</a></li>
+        <li><a href="/ref/publisher">Издатель</a></li>
       </ul>
     </nav>
   )
