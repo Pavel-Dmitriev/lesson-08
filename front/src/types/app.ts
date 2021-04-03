@@ -9,6 +9,5 @@ export declare namespace App {
     readonly login: string;
     readonly exp: number;
     readonly iat: number;
-
   }
 }

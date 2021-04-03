@@ -1,7 +1,7 @@
-import  {AppState} from './app/types'
+import { AppState } from './app/types'
 
 export declare namespace RootState {
   interface State {
-    readonly app: AppState.State
+    readonly app: AppState.State;
   }
 }

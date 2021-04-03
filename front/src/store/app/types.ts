@@ -1,8 +1,8 @@
-import {Action as ActionRedux} from 'redux'
-import {Thunk} from "../../types/base";
-import {Auth} from "../../types/auth";
-import {App} from "../../types/app";
-import {AppAction} from './appAction'
+import { App } from '../../types/app'
+import { Auth } from '../../types/auth'
+import { Thunk } from '../../types/base'
+import { AppAction } from './appAction'
+import { Action as ActionRedux } from 'redux'
 
 export declare namespace AppState {
   interface State {
@@ -12,10 +12,10 @@ export declare namespace AppState {
     readonly errorText: string;
   }
 
- namespace Action {
-    type Fetch = ActionRedux<AppAction.Fetch> & {payload?: undefined}
-    type FetchSuccess = ActionRedux<AppAction.FetchSuccess> & {payload: App.Token}
-    type FetchError = ActionRedux<AppAction.FetchError> & {payload?: string}
+  namespace Action {
+    type Fetch = ActionRedux<AppAction.Fetch> & { payload?: undefined }
+    type FetchSuccess = ActionRedux<AppAction.FetchSuccess> & { payload: App.Token }
+    type FetchError = ActionRedux<AppAction.FetchError> & { payload: string }
 
     type All = Fetch | FetchSuccess | FetchError
   }

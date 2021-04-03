@@ -1,6 +1,6 @@
-import {AppState} from "./types";
-import {Reducer} from "redux";
-import {AppAction} from "./appAction";
+import { AppAction } from './appAction'
+import { AppState } from './types'
+import { Reducer } from 'redux'
 
 const initState: AppState.State = {
   loading: false,

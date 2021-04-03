@@ -5,13 +5,21 @@ export declare namespace Auth {
       password: string;
     }
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
   namespace Refresh {
     interface Params {
       login: string;
       refreshToken: string;
     }
   }
+<<<<<<< HEAD
 
 }
 
 
+=======
+}
+>>>>>>> master

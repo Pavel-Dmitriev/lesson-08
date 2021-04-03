@@ -14,9 +14,6 @@ export declare namespace User {
     email: string;
     enable: boolean;
     createdAt: string; // Format: 2021-03-30T15:13:16.000Z,
-    updateAt: string;  // Format: 2021-03-30T15:13:16.000Z,
+    updateAt: string; // Format: 2021-03-30T15:13:16.000Z
   }
-
 }
-
-

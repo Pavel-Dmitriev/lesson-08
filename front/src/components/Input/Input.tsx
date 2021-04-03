@@ -1,9 +1,9 @@
 import block from 'bem-cn'
-import React, {ChangeEventHandler, useEffect, useState} from 'react'
+import React, { ChangeEventHandler, useEffect, useState } from 'react'
+import { BaseComponentProps } from '../../types/base'
+import { emptyFunction } from '../../utils'
 import './Input.css'
-import {InputType} from './InputType'
-import {BaseComponentProps} from "../../types/base";
-import {emptyFunction} from "../../utils";
+import { InputType } from './InputType'
 
 interface Props extends BaseComponentProps {
   label?: string;
@@ -11,7 +11,7 @@ interface Props extends BaseComponentProps {
   value?: string;
   name: string;
   htmlType?: InputType;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
+  onChange?: ChangeEventHandler<HTMLInputElement>
   error?: string;
   placeholder?: string;
   disabled?: boolean;
@@ -29,9 +29,9 @@ export const Input: React.FC<Props> = ({
   onChange = emptyFunction,
   error = '',
   placeholder = '',
-  disabled = false,
+  disabled = false
 }) => {
-  const [currentValue,setCurrentValue] = useState<string>(defaultValue)
+  const [currentValue, setCurrentValue] = useState<string>(defaultValue)
 
   const handlerChange: ChangeEventHandler<HTMLInputElement> = event => {
     event.preventDefault()
@@ -42,12 +42,15 @@ export const Input: React.FC<Props> = ({
   useEffect(() => {
     setCurrentValue(value)
   }, [value])
+
   return (
     <div className={b({}).mix(className)}>
       <div className={b('container')}>
         {!!label && <label className={b('label')}>{label}</label>}
         <input
           className={b('input')}
+          value={currentValue}
+          onChange={handlerChange}
           type={htmlType}
           name={name}
           placeholder={placeholder}
