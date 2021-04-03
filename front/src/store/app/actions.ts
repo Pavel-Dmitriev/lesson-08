@@ -1,4 +1,5 @@
 import { apiAuthLogin } from '../../api/auth'
+import { browserHistory } from '../../browserHistory'
 import { App } from '../../types/app'
 import { AppAction } from './appAction'
 import { AppState } from './types'
@@ -24,6 +25,7 @@ export const appActions: AppState.ActionThunk = {
     try {
       const tokenPair = await apiAuthLogin(params)
       dispatch(appFetchSuccess(tokenPair))
+      browserHistory.push('/')
     } catch (err) {
       dispatch(appFetchError('Ошибка авторизации.'))
     }

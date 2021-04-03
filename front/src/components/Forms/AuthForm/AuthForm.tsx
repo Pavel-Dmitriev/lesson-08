@@ -3,7 +3,6 @@ import { useFormik } from 'formik'
 import React, { MouseEventHandler } from 'react'
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux'
 import * as Yup from 'yup'
-import { apiAuthLogin } from '../../../api/auth'
 import { appActions } from '../../../store/app/actions'
 import { AppState } from '../../../store/app/types'
 import { RootState } from '../../../store/types'
@@ -18,7 +17,8 @@ interface StateProps {
   errorText: string;
 }
 
-interface DispatchProps extends AppState.ActionThunk {}
+interface DispatchProps extends AppState.ActionThunk {
+}
 
 interface OwnProps {
 }
