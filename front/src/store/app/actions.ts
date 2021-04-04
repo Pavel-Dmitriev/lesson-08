@@ -1,15 +1,12 @@
-<<<<<<< HEAD
-import {AppState} from "./types";
-import {AppAction} from "./appAction";
-import {App} from "../../types/app";
-import {apiAuthLogin} from "../../api/auth";
-=======
+
 import { apiAuthLogin } from '../../api/auth'
 import { browserHistory } from '../../browserHistory'
 import { App } from '../../types/app'
 import { AppAction } from './appAction'
 import { AppState } from './types'
->>>>>>> master
+import {apiUserCreate} from "../../api/user";
+import {User} from "../../types/user";
+
 
 const appFetch = (): AppState.Action.Fetch => ({
   type: AppAction.Fetch
@@ -24,6 +21,10 @@ const appFetchError = (payload: string): AppState.Action.FetchError => ({
   type: AppAction.FetchError,
   payload
 })
+const appFetchRegisterSuccess = (payload: User.Data): AppState.Action.FetchRegisterSuccess => ({
+  type: AppAction.FetchRegisterSuccess,
+  payload
+})
 
 export const appActions: AppState.ActionThunk = {
   appLogin: params => async (dispatch) => {
@@ -32,12 +33,21 @@ export const appActions: AppState.ActionThunk = {
     try {
       const tokenPair = await apiAuthLogin(params)
       dispatch(appFetchSuccess(tokenPair))
-<<<<<<< HEAD
-=======
       browserHistory.push('/')
->>>>>>> master
     } catch (err) {
       dispatch(appFetchError('Ошибка авторизации.'))
     }
+  },
+  appReg: params => async (dispatch) => {
+    dispatch(appFetch())
+
+    try {
+      const user = await apiUserCreate(params)
+      dispatch(appFetchRegisterSuccess(user))
+      browserHistory.push('/auth')
+    } catch (err) {
+      dispatch(appFetchError('Ошибка регистрации.'))
+    }
   }
 }
+

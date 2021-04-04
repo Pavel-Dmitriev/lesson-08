@@ -1,11 +1,5 @@
-<<<<<<< HEAD
 import {ThunkAction} from "redux-thunk";
 import {RootState} from "../store/types";
-
-=======
-import { ThunkAction } from 'redux-thunk'
-import { RootState } from '../store/types'
->>>>>>> master
 
 export interface BaseComponentProps {
   className?: string;

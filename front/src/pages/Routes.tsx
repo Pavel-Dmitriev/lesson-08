@@ -1,5 +1,5 @@
 import React from 'react'
-import { Redirect, Switch } from 'react-router-dom'
+import { Redirect, Switch } from 'react-router'
 import { Page } from '../components/Page/Page'
 import { AuthLayout } from '../layouts/AuthLayout/AuthLayout'
 import { AboutPage } from './AboutPage/AboutPage'
@@ -11,6 +11,7 @@ import {Authors} from "./Ref/Authors/Authors";
 import {Genre} from "./Ref/Genre/Genre";
 import {Language} from "./Ref/Language/Language";
 import {Publisher} from "./Ref/Publisher/Publisher";
+import {RegPage} from "./RegPage/RegPage";
 
 
 interface Props {
@@ -20,6 +21,7 @@ export const Routes: React.FC<Props> = () => {
   return (
     <Switch>
       <Redirect exact from={'/'} to={'/catalog'} />
+      <Page path={'/registration'} layout={AuthLayout} component={RegPage} />
       <Page path={'/auth'} layout={AuthLayout} component={AuthPage} />
       <Page secured path={'/catalog'} component={CatalogPage} />
       <Page exact secured path={'/ref'} component={Ref} />
