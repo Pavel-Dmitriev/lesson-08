@@ -1,6 +1,6 @@
+import { Reducer } from 'redux'
 import { AppAction } from './appAction'
 import { AppState } from './types'
-import { Reducer } from 'redux'
 
 const initState: AppState.State = {
   loading: false,
@@ -29,6 +29,15 @@ export const appReducer: Reducer<AppState.State, AppState.Action.All> = (state =
         ...state,
         loading: false,
         errorText: action.payload
+      }
+    case AppAction.ClearError:
+      return {
+        ...state,
+        errorText: ''
+      }
+    case AppAction.Clear:
+      return {
+        ...initState
       }
     default:
       return state

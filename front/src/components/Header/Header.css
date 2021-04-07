@@ -1,24 +1,25 @@
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px 8px 12px;
-  height: 40px;
-  background-color: #2c2c2c;
-  color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    height: 60px;
+    background-color: var(--header-bg);
+    color: var(--header-text);
 
-  &__title {
-    text-align: center;
-    font-weight: bold;
-    font-size: 2em;
-    text-decoration: none;
+    &__title {
+        outline: none;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.8em;
+        text-decoration: none;
 
-    &:link,
-    &:visited,
-    &:hover,
-    &:focus,
-    &:active {
-      color: inherit;
+        &:link,
+        &:visited,
+        &:hover,
+        &:focus,
+        &:active {
+            color: inherit;
+        }
     }
-  }
 }
