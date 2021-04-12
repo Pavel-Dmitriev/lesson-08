@@ -12,6 +12,7 @@ interface StateProps {
 interface OwnProps {
   exact?: boolean;
   secured?: boolean;
+  onlyPublic?: boolean;
   path: string;
   layout?: any;
   component: any;
@@ -22,11 +23,17 @@ type Props = OwnProps & StateProps
 const PagePresenter: React.FC<Props> = ({
   secured = false,
   exact = false,
+  onlyPublic= false,
   path,
   layout: Layout = MainLayout,
   component: Component,
   isAuth
 }) => {
+
+  if (onlyPublic && isAuth) {
+    return <Redirect to={'/'} />
+  }
+
   if (secured && !isAuth) {
     return <Redirect to={'/auth'} />
   }

@@ -3,31 +3,38 @@ import React, { MouseEventHandler } from 'react'
 import { BaseComponentProps } from '../../types/base'
 import { emptyFunction } from '../../utils'
 import './Button.css'
+import {ButtonType} from "./ButtonType";
 
 interface Props extends BaseComponentProps {
-  text: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
-  htmlType?: 'submit' | 'reset' | 'button'
+  htmlType?: 'submit' | 'reset' | 'button',
+  type?: ButtonType,
+  loading?: boolean
+
 }
 
 const b = block('button')
 
 export const Button: React.FC<Props> = ({
   className = '',
-  text,
+  children ,
   onClick = emptyFunction,
   disabled = false,
-  htmlType = 'button'
+  htmlType = 'button',
+  type= ButtonType.Default,
+  loading= false
 }) => {
   return (
     <button
-      className={b({}).mix(className)}
+      className={b({[type]: true}).mix(className)}
       onClick={onClick}
-      disabled={disabled}
+      disabled={disabled || loading}
       type={htmlType}
     >
-      <span>{text}</span>
+      <span className={b('children')}>
+        {children}
+      </span>
     </button>
   )
 }

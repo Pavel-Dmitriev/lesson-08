@@ -1,18 +1,23 @@
 import block from 'bem-cn'
-import React from 'react'
+import React, {ReactNode} from 'react'
 import './Header.css'
+import {BaseComponentProps} from "../../types/base";
+import {Link} from "react-router-dom";
 
-interface Props {
+interface Props extends BaseComponentProps{
+  right?: ()  => ReactNode
 }
 
 const b = block('header')
 
-export const Header: React.FC<Props> = () => (
-  <header className={b()}>
-    <a className={b('title')}
-      href={'/'}
+export const Header: React.FC<Props> = ({className= '', right}) => (
+  <header className={b({}).mix(className)}>
+    <Link
+      className={b('title')}
+      to={'/'}
     >
       Catalog
-    </a>
+    </Link>
+    {!!right && right()}
   </header>
 )

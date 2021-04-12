@@ -1,17 +1,24 @@
+@import "theme.css";
+
 /* Указываем box sizing */
 *,
 *::before,
 *::after {
+  padding: 0;
+  margin: 0;
   box-sizing: border-box;
+  position: relative;
 }
 
 body {
-  margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
   sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  color: var(--main-text);
+  background-color: var(--body-bg);
 }
 
 /* Убираем внутренние отступы */
@@ -19,25 +26,6 @@ ul[class],
 ol[class] {
   padding: 0;
 }
-
-/* Убираем внешние отступы */
-body,
-h1,
-h2,
-h3,
-h4,
-p,
-ul[class],
-ol[class],
-li,
-figure,
-figcaption,
-blockquote,
-dl,
-dd {
-  margin: 0;
-}
-
 
 /* Удаляем стандартную стилизацию для всех ul и il, у которых есть атрибут class*/
 ul[class],
@@ -54,11 +42,6 @@ a:not([class]) {
 img {
   max-width: 100%;
   display: block;
-}
-
-/* Указываем понятную периодичность в потоке данных у article*/
-article > * + * {
-  margin-top: 1em;
 }
 
 /* Наследуем шрифты для инпутов и кнопок */

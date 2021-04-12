@@ -11,8 +11,7 @@ const b = block('reg-page')
 export const RegPage: React.FC<Props> = () => {
   return (
     <div className={b()}>
-      Форма регистрации
-      <RegForm />
+      <RegForm className={b('form')}/>
     </div>
   )
 }

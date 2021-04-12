@@ -3,7 +3,6 @@ import { Auth } from '../../types/auth'
 import { Thunk } from '../../types/base'
 import { AppAction } from './appAction'
 import { Action as ActionRedux } from 'redux'
-import {User} from "../../types/user";
 
 export declare namespace AppState {
   interface State {
@@ -11,20 +10,21 @@ export declare namespace AppState {
     readonly accessToken: string;
     readonly refreshToken: string;
     readonly errorText: string;
-    readonly user: User.Data | null;
   }
 
   namespace Action {
     type Fetch = ActionRedux<AppAction.Fetch> & { payload?: undefined }
     type FetchSuccess = ActionRedux<AppAction.FetchSuccess> & { payload: App.Token }
     type FetchError = ActionRedux<AppAction.FetchError> & { payload: string }
-    type FetchRegisterSuccess = ActionRedux<AppAction.FetchRegisterSuccess> & {payload: User.Data}
+    type ClearError = ActionRedux<AppAction.ClearError>
+    type Clear = ActionRedux<AppAction.Clear>
 
-    type All = Fetch | FetchSuccess | FetchError | FetchRegisterSuccess
+    type All = Fetch | FetchSuccess | FetchError | ClearError | Clear
   }
 
   interface ActionThunk {
     appLogin: Thunk<Auth.Login.Params>,
-    appReg: Thunk<User.Create.Param>
+    clearError: Thunk,
+    clear: Thunk
   }
 }

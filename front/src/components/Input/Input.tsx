@@ -1,9 +1,10 @@
 import block from 'bem-cn'
-import React, { ChangeEventHandler, useEffect, useState } from 'react'
-import { BaseComponentProps } from '../../types/base'
-import { emptyFunction } from '../../utils'
+import React, {ChangeEventHandler, FocusEventHandler, KeyboardEventHandler, useEffect, useMemo, useState} from 'react'
+import {BaseComponentProps} from '../../types/base'
+import {emptyFunction} from '../../utils'
 import './Input.css'
-import { InputType } from './InputType'
+import {InputType} from './InputType'
+import {nanoid} from "nanoid";
 
 interface Props extends BaseComponentProps {
   label?: string;
@@ -11,7 +12,11 @@ interface Props extends BaseComponentProps {
   value?: string;
   name: string;
   htmlType?: InputType;
-  onChange?: ChangeEventHandler<HTMLInputElement>
+  onChange?: ChangeEventHandler<HTMLInputElement>;
+  onFocus?: FocusEventHandler<HTMLInputElement>;
+  onBlur?: FocusEventHandler<HTMLInputElement>;
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
+  onPressEnter?: KeyboardEventHandler<HTMLInputElement>;
   error?: string;
   placeholder?: string;
   disabled?: boolean;
@@ -19,45 +24,83 @@ interface Props extends BaseComponentProps {
 
 const b = block('input')
 
-export const Input: React.FC<Props> = ({
-  className = '',
-  label = '',
-  value = '',
-  defaultValue = '',
-  htmlType = InputType.Text,
-  name,
-  onChange = emptyFunction,
-  error = '',
-  placeholder = '',
-  disabled = false
-}) => {
-  const [currentValue, setCurrentValue] = useState<string>(defaultValue)
+export const Input = React.forwardRef<HTMLInputElement, Props>(
+  ({
+     className = '',
+     label = '',
+     value = '',
+     defaultValue = '',
+     htmlType = InputType.Text,
+     name,
+     onChange = emptyFunction,
+     onFocus = emptyFunction,
+     onBlur = emptyFunction,
+     onKeyDown = emptyFunction,
+     onPressEnter = emptyFunction,
+     error = '',
+     placeholder = '',
+     disabled = false
+   }, ref) => {
+    const [currentValue, setCurrentValue] = useState<string>(defaultValue)
+    const [currentFocus, setCurrentFocus] = useState<boolean>(false)
 
-  const handlerChange: ChangeEventHandler<HTMLInputElement> = event => {
-    event.preventDefault()
-    setCurrentValue(event.target.value)
-    onChange(event)
-  }
+    const id = useMemo<string>(() => nanoid(7), [])
 
-  useEffect(() => {
-    setCurrentValue(value)
-  }, [value])
+    const handlerChange: ChangeEventHandler<HTMLInputElement> = event => {
+      event.preventDefault()
+      setCurrentValue(event.target.value)
+      onChange(event)
+    }
 
-  return (
-    <div className={b({}).mix(className)}>
-      <div className={b('container')}>
-        {!!label && <label className={b('label')}>{label}</label>}
-        <input
-          className={b('input')}
-          value={currentValue}
-          onChange={handlerChange}
-          type={htmlType}
-          name={name}
-          placeholder={placeholder}
-          disabled={disabled}
-        />
+    const handlerFocus: FocusEventHandler<HTMLInputElement> = event => {
+      event.preventDefault()
+      setCurrentFocus(true)
+      onFocus(event)
+    }
+
+    const handlerBlur: FocusEventHandler<HTMLInputElement> = event => {
+      event.preventDefault()
+      setCurrentFocus(false)
+      onBlur(event)
+    }
+
+    const handlerKeyDown: KeyboardEventHandler<HTMLInputElement> = event => {
+      if (['Enter', 'NumpadEnter'].includes(event.code)) {
+        onPressEnter(event)
+      }
+      onKeyDown(event)
+    }
+
+    useEffect(() => {
+      setCurrentValue(value)
+    }, [value])
+
+    return (
+      <div className={b({}).mix(className)}>
+        <div className={b('container', {'has-label': !!label, active: currentFocus})}>
+          {!!label &&
+          <label
+            className={b('label', {active: currentFocus || !!currentValue})}
+            htmlFor={id}
+          >
+            {label}
+          </label>}
+          <input
+            ref={ref}
+            id={id}
+            className={b('input', {error: !!error})}
+            value={currentValue}
+            onChange={handlerChange}
+            onFocus={handlerFocus}
+            onBlur={handlerBlur}
+            onKeyDown={handlerKeyDown}
+            type={htmlType}
+            name={name}
+            placeholder={placeholder}
+            disabled={disabled}
+          />
+        </div>
+        {!!error && <p className={b('error')}>{error}</p>}
       </div>
-      {!!error && <p className={b('error')}>{error}</p>}
-    </div>
-  )
-}
+    )
+  })

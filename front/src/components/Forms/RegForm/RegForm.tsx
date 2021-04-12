@@ -1,42 +1,43 @@
 import block from 'bem-cn'
 import { useFormik } from 'formik'
-import React, { MouseEventHandler } from 'react'
+import React, {MouseEventHandler, useState} from 'react'
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux'
 import * as Yup from 'yup'
 import { appActions } from '../../../store/app/actions'
-import { AppState } from '../../../store/app/types'
 import { RootState } from '../../../store/types'
 import { Button } from '../../Button/Button'
 import { Input } from '../../Input/Input'
 import { InputType } from '../../Input/InputType'
 import './RegForm.css'
 import {User} from "../../../types/user";
+import {BaseComponentProps} from "../../../types/base";
+import {apiUserCreate} from "../../../api/user";
+import {browserHistory} from "../../../browserHistory";
+import {ButtonType} from "../../Button/ButtonType";
 
 const b = block('reg-form')
 
-interface StateProps {
-  loading: boolean;
-  errorText: string;
+
+interface Props extends BaseComponentProps {
 }
 
-interface DispatchProps extends AppState.ActionThunk {
-}
-
-interface OwnProps {
-}
-
-type Props = OwnProps & StateProps & DispatchProps
 
 
-const schema: Yup.SchemaOf<User.Create.Param> = Yup.object().shape(({
-  login: Yup.string().required(),
-  email: Yup.string().required(),
-  password: Yup.string().required(),
-  passwordConfirm: Yup.string().required()
+const schema: Yup.SchemaOf<User.Create.Params> = Yup.object().shape(({
+  login: Yup.string().required('Обязательное поле'),
+  email: Yup.string().email('Невалидный email').required('Обязательное поле'),
+  password: Yup.string().required('Обязательное поле'),
+  passwordConfirm: Yup.string().required('Обязательное поле').test(
+    'match',
+    'Поля не совпадают',
+    (value, context) => value === context.parent.password
+  )
 }))
 
-const RegFormPresenter: React.FC<Props> = ({ loading, errorText, appReg }) => {
-  const { errors, values, submitForm, handleChange } = useFormik<User.Create.Param>({
+export const RegForm: React.FC<Props> = ({className = ''}) => {
+  const [ loading, setLoading ] =useState<boolean>(false)
+  const [ errorText, setErrorText ] =useState<string>('')
+  const { errors, values, submitForm, handleChange } = useFormik<User.Create.Params>({
     initialValues: {
       login: '',
       email: '',
@@ -45,7 +46,15 @@ const RegFormPresenter: React.FC<Props> = ({ loading, errorText, appReg }) => {
     },
     validationSchema: schema,
     onSubmit: async (fields) => {
-      await appReg(fields)
+      try {
+      setLoading(true)
+      await apiUserCreate(fields)
+        browserHistory.push('/auth')
+      } catch (err) {
+        setErrorText(err.message)
+      } finally {
+        setLoading(false)
+      }
     }
   })
 
@@ -55,11 +64,11 @@ const RegFormPresenter: React.FC<Props> = ({ loading, errorText, appReg }) => {
   }
 
   return (
-    <form className={b()}>
+    <form className={b({}).mix(className)}>
       <h2 className={b('title')}>Регистрация</h2>
       <Input
         className={b('field')}
-        label={'Логин'}
+        label={'Имя'}
         name={'login'}
         value={values.login}
         onChange={handleChange}
@@ -69,8 +78,7 @@ const RegFormPresenter: React.FC<Props> = ({ loading, errorText, appReg }) => {
       <Input
         className={b('field')}
         label={'Почта'}
-        name={'Email'}
-        htmlType={InputType.Email}
+        name={'email'}
         value={values.email}
         onChange={handleChange}
         error={errors?.email}
@@ -79,7 +87,7 @@ const RegFormPresenter: React.FC<Props> = ({ loading, errorText, appReg }) => {
       <Input
         className={b('field')}
         label={'Пароль'}
-        name={'Password'}
+        name={'password'}
         htmlType={InputType.Password}
         value={values.password}
         onChange={handleChange}
@@ -97,21 +105,26 @@ const RegFormPresenter: React.FC<Props> = ({ loading, errorText, appReg }) => {
         disabled={loading}
       />
       {!!errorText && <p className={'error'}>{errorText}</p>}
-      <div>
-        <Button text={'Регистрация'} onClick={handlerSubmit} disabled={loading} />
-        {/*<Button text={'Войти'} onClick={handlerSubmit} disabled={loading} />*/}
+      <div className={b('buttons')}>
+        <Button
+          onClick={handlerSubmit}
+          disabled={loading}
+          type={ButtonType.Primary}
+        >
+        Регистрация
+        </Button>
       </div>
     </form>
   )
 }
 
 
-const mapStateToProps: MapStateToProps<StateProps, OwnProps, RootState.State> = ({ app }) => ({
-  loading: app.loading,
-  errorText: app.errorText
-})
-
-const mapDispatchToProp: MapDispatchToProps<DispatchProps, OwnProps> = { ...appActions }
-
-export const RegForm = connect(mapStateToProps, mapDispatchToProp)(RegFormPresenter)
+// const mapStateToProps: MapStateToProps<StateProps, OwnProps, RootState.State> = ({ app }) => ({
+//   loading: app.loading,
+//   errorText: app.errorText
+// })
+//
+// const mapDispatchToProp: MapDispatchToProps<DispatchProps, OwnProps> = { ...appActions }
+//
+// export const RegForm = connect(mapStateToProps, mapDispatchToProp)(RegFormPresenter)
 

@@ -6,8 +6,7 @@ const initState: AppState.State = {
   loading: false,
   accessToken: '',
   refreshToken: '',
-  errorText: '',
-  user: null
+  errorText: ''
 }
 
 export const appReducer: Reducer<AppState.State, AppState.Action.All> = (state = initState, action) => {
@@ -31,11 +30,14 @@ export const appReducer: Reducer<AppState.State, AppState.Action.All> = (state =
         loading: false,
         errorText: action.payload
       }
-    case AppAction.FetchRegisterSuccess:
+    case AppAction.ClearError:
       return {
         ...state,
-        loading: false,
-        user: action.payload
+        errorText: '',
+      }
+    case AppAction.Clear:
+      return {
+        ...initState
       }
     default:
       return state
