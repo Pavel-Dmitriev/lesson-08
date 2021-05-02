@@ -1,9 +1,10 @@
 import block from 'bem-cn'
 import React from 'react'
-import { Select } from '../../components/Select/Select'
+import { Card } from '../../components/Card/Card'
+import { BasePageProps } from '../../types/base'
 import './CatalogPage.css'
 
-interface Props {
+interface Props extends BasePageProps {
 }
 
 interface User {
@@ -33,15 +34,16 @@ const users: User[] = [
 
 const b = block('catalog-page')
 
-export const CatalogPage: React.FC<Props> = () => {
+export const CatalogPage: React.FC<Props> = ({ match }) => {
   return (
     <div className={b()}>
-      Каталог
-      <Select<User>
-        data={users}
-        renderValue={item => `${item.id}`}
-        renderLabel={item => item.name + ' ' + item.age}
-      />
+      <Card title={'Каталог'}>
+        {/*<Select<User>*/}
+        {/*  data={users}*/}
+        {/*  renderValue={item => `${item.id}`}*/}
+        {/*  renderLabel={item => item.name + ' ' + item.age}*/}
+        {/*/>*/}
+      </Card>
     </div>
   )
 }

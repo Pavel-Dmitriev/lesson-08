@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js --watchAll"
   },
   "dependencies": {
     "@babel/core": "7.12.3",
@@ -53,6 +53,7 @@
     "jest-circus": "26.6.0",
     "jest-resolve": "26.6.0",
     "jest-watch-typeahead": "0.6.1",
+    "lodash": "^4.17.21",
     "mini-css-extract-plugin": "0.11.3",
     "nanoid": "^3.1.22",
     "optimize-css-assets-webpack-plugin": "5.0.4",
@@ -86,6 +87,7 @@
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.1.7",
+    "@types/react-test-renderer": "^17.0.1",
     "http-proxy-middleware": "^1.1.0",
     "postcss": "^8.2.8",
     "postcss-flexbugs-fixes": "^5.0.2",
@@ -94,7 +96,8 @@
     "postcss-nested": "^5.0.5",
     "postcss-normalize": "^9.0.0",
     "postcss-preset-env": "^6.7.0",
-    "postcss-safe-parser": "^5.0.2"
+    "postcss-safe-parser": "^5.0.2",
+    "react-test-renderer": "^17.0.2"
   },
   "eslintConfig": {
     "extends": [
@@ -118,9 +121,11 @@
     "roots": [
       "<rootDir>/src"
     ],
+    "collectCoverage": true,
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
-      "!src/**/*.d.ts"
+      "!src/**/*.d.ts",
+      "!src/**/*Type.ts"
     ],
     "setupFiles": [
       "react-app-polyfill/jsdom"
@@ -133,7 +138,7 @@
       "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
     ],
     "testEnvironment": "jsdom",
-    "testRunner": "D:\\projects\\lesson-08\\front\\node_modules\\jest-circus\\runner.js",
+    "testRunner": "<rootDir>/node_modules/jest-circus/runner.js",
     "transform": {
       "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",

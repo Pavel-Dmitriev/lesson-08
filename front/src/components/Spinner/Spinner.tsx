@@ -1,5 +1,6 @@
 import block from 'bem-cn'
 import React, { CSSProperties, useMemo } from 'react'
+import { isNumber } from 'lodash'
 import { BaseComponentProps } from '../../types/base'
 import './Spinner.css'
 import { SpinnerType } from './SpinnerType'
@@ -19,14 +20,14 @@ export const Spinner: React.FC<Props> = ({
   type = SpinnerType.Primary
 }) => {
   const style = useMemo<CSSProperties>(() => ({
-    width: size,
-    height: size,
+    width: isNumber(size) ? `${size}px` : size,
+    height: isNumber(size) ? `${size}px` : size,
     borderWidth: width
   }), [width, size])
 
   return (
     <span
-      className={b({ [type]: true }).mix(className)}
+      className={b({ [type]: true }).mix(className).toString()}
       style={style}
     />
   )

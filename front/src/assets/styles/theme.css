@@ -5,13 +5,19 @@
     --main-text: var(--color-1f);
     --block-bg: var(--color-white);
     --block-text: var(--color-1f);
-    --inactive: var(--color-2c);
+    --inactive: var(--color-c2);
     --error: var(--color-red);
     --shadow: var(--color-2c-transparent);
 
     /* Header */
     --header-bg: var(--color-2c);
     --header-text: var(--color-e0);
+
+    /* MainMenu */
+    --main-menu-bg: var(--color-2c);
+    --main-menu-text: var(--color-e0);
+    --main-menu-active-bg: var(--color-4c);
+    --main-menu-active-text: var(--color-e0);
 
     /* Spinner */
     --spinner-primary: var(--color-1f);

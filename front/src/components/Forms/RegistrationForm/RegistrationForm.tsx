@@ -26,6 +26,7 @@ const schema: Yup.SchemaOf<User.Create.Params> = Yup.object().shape(({
 }))
 
 export const RegistrationForm: React.FC<Props> = ({ className = '' }) => {
+
   const [loading, setLoading] = useState<boolean>(false)
   const [errorText, setErrorText] = useState<string>('')
   const { errors, values, submitForm, handleChange } = useFormik<User.Create.Params>({
@@ -53,6 +54,8 @@ export const RegistrationForm: React.FC<Props> = ({ className = '' }) => {
     event.preventDefault()
     submitForm().catch()
   }
+
+  throw new Error()
 
   return (
     <form className={b({}).mix(className)}>

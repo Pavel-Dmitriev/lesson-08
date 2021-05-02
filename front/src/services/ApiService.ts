@@ -12,7 +12,7 @@ export const ApiService = (secured: boolean = false, getState: () => RootState.S
     const accessToken = state.app.accessToken
 
     if (accessToken) {
-      // headers['Authorization'] = `Bearer ${accessToken}`
+      headers['Authorization'] = `Bearer ${accessToken}`
     }
   }
 
